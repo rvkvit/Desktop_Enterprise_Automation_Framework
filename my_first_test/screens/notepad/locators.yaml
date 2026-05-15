@@ -1,0 +1,18 @@
+TEXT_AREA:
+  primary:
+    strategy: control_type
+    value: "Document"
+  fallback:
+    - strategy: control_type
+      value: "Edit"
+    - strategy: class_name
+      value: "Edit"
+  metadata:
+    description: Main text editing area in Notepad (Win11 uses Document, Win10 uses Edit)
+
+TITLE_BAR:
+  primary:
+    strategy: name
+    value: "Notepad"
+  metadata:
+    description: Notepad main window title bar

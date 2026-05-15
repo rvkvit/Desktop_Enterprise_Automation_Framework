@@ -1,0 +1,157 @@
+# =============================================================================
+# Desktop Automation Platform — Sample Configuration
+# =============================================================================
+# Copy and adapt this file for your project.
+# All values shown are production-recommended defaults.
+# Environment variables can be referenced as ${VAR_NAME}.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Framework behaviour
+# -----------------------------------------------------------------------------
+framework:
+  # 'auto'     → platform detects application technology at runtime (recommended)
+  # 'flaui'    → force FlaUI for all sessions
+  # 'pywinauto'→ force pywinauto
+  # 'winappdriver', 'java_access_bridge', 'sikuli_image', 'electron_playwright'
+  adapter_mode: auto
+
+  # Retry attempts for failed actions (0 = no retry, max 20)
+  retry_count: 3
+
+  # Capture a screenshot automatically on any action failure
+  screenshot_on_failure: true
+
+  # Log level: DEBUG | INFO | WARNING | ERROR | CRITICAL
+  logging_level: INFO
+
+  # Minimum detection confidence (0.0–1.0) to trust auto-detect recommendation
+  # Below this threshold a warning is emitted and the first available adapter is used
+  detection_confidence_threshold: 0.6
+
+  # true  → JSON output (CI/CD, log aggregation)
+  # false → human-readable coloured output (local development)
+  structured_logging: true
+
+# -----------------------------------------------------------------------------
+# Application under test
+# -----------------------------------------------------------------------------
+application:
+  # Human-readable name used in reports and log output
+  name: Claims Desktop
+
+  # Absolute path to the application executable
+  # Use ${ENV_VAR} for environment-specific paths
+  executable: ${CLAIMS_APP_EXE}
+
+  # 'auto'     → detect technology at runtime (recommended)
+  # 'wpf', 'winforms', 'winui3', 'maui', 'win32', 'java_swing', 'qt',
+  # 'electron', 'citrix', 'packaged'
+  type: auto
+
+  # Optional — used by 'Attach Application' keyword
+  window_title: Claims Processing System
+
+  # Working directory for launch (defaults to executable directory)
+  # working_directory: C:\Apps\Claims
+
+  # Launch arguments passed to the executable
+  launch_arguments:
+    - --environment=test
+    - --disable-splash
+
+  # Maximum seconds to wait for the application window after launch
+  launch_timeout_seconds: 30
+
+  # Environment variables injected into the launched process
+  environment:
+    CLAIMS_ENV: test
+    LOG_LEVEL: DEBUG
+
+# -----------------------------------------------------------------------------
+# Execution timing
+# -----------------------------------------------------------------------------
+execution:
+  # Default timeout in seconds for element wait operations
+  timeout: 30
+
+  # Wait strategy:
+  #   explicit → wait only when Wait For Element is called (recommended)
+  #   implicit → all find-element calls wait up to 'implicit_wait' seconds
+  wait_strategy: explicit
+
+  # Implicit wait (seconds) — only effective when wait_strategy=implicit
+  implicit_wait: 0
+
+  # Polling interval between retry/wait checks (seconds)
+  poll_interval: 0.5
+
+  # Fixed delay inserted between consecutive actions (for slow AUTs)
+  # Set to 0 in most cases
+  action_delay: 0
+
+# -----------------------------------------------------------------------------
+# Reporting
+# -----------------------------------------------------------------------------
+reporting:
+  output_directory: reports
+  screenshots_directory: reports/screenshots
+  include_screenshots: true
+  include_execution_trace: true
+  include_locator_resolution_path: true
+
+  # Auto-purge screenshots older than N days (0 = never purge)
+  max_screenshot_age_days: 30
+
+# -----------------------------------------------------------------------------
+# Per-adapter configuration
+# Adapters not installed in the environment are silently skipped.
+# -----------------------------------------------------------------------------
+adapters:
+  flaui:
+    enabled: true
+    # UIA2 → Windows 7+ (legacy apps)
+    # UIA3 → Windows 10+ (WPF, WinUI3, modern apps) — recommended
+    automation_type: UIA3
+    # Highlight matched elements with a red border (slows down execution)
+    highlight_elements: false
+
+  winappdriver:
+    enabled: false
+    server_url: http://localhost:4723
+    platform_name: Windows
+    platform_version: "10"
+
+  pywinauto:
+    enabled: true
+    # 'uia'   → UI Automation backend (recommended for WPF/WinForms)
+    # 'win32' → Win32 API backend (legacy apps without UIA support)
+    backend: uia
+
+  java_access_bridge:
+    enabled: true
+    # Override JAVA_HOME if not set in environment
+    # java_home: C:\Program Files\Java\jdk-17
+
+  sikuli_image:
+    enabled: true
+    # Template image matching threshold (0.1–1.0)
+    similarity_threshold: 0.90
+    screenshot_directory: image_templates
+
+  electron_playwright:
+    enabled: true
+    browser_type: chromium
+    headless: false
+    devtools: false
+
+# -----------------------------------------------------------------------------
+# AI extensibility (Phase 2+ — disabled by default)
+# -----------------------------------------------------------------------------
+ai:
+  locator_optimization_enabled: false
+  intelligent_healing_enabled: false
+  auto_test_generation_enabled: false
+  root_cause_analysis_enabled: false
+  # model_endpoint: https://api.anthropic.com/v1
+  # api_key_env_var: ANTHROPIC_API_KEY

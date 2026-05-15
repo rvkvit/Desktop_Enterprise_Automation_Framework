@@ -1,0 +1,25 @@
+framework:
+  adapter_mode: auto
+  retry_count: 3
+  screenshot_on_failure: true
+  logging_level: INFO
+  detection_confidence_threshold: 0.5
+
+application:
+  name: "Claims Desktop"
+  executable: "C:\\Program Files\\ClaimsDesktop\\ClaimsDesktop.exe"
+  launch_timeout_seconds: 30
+  window_title: "Claims"
+
+execution:
+  timeout: 20
+  poll_interval: 0.5
+  wait_strategy: explicit
+
+reporting:
+  output_directory: "./reports"
+  screenshots_directory: "./reports/screenshots"
+
+adapters:
+  flaui:
+    automation_type: UIA3

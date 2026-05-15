@@ -1,0 +1,48 @@
+# ============================================================
+# Desktop Automation Platform — Dependency Manifest
+# Install base: pip install -r requirements.txt
+# Install all:  pip install -e ".[all]"
+# ============================================================
+
+# --- Core framework ---
+robotframework>=7.0.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+PyYAML>=6.0.1
+structlog>=24.1.0
+dependency-injector>=4.41.0
+
+# --- System / process introspection (cross-platform) ---
+psutil>=5.9.7
+
+# --- Windows desktop automation ---
+# pywinauto: Win32 / WinForms / WPF interaction via accessibility APIs
+pywinauto>=0.6.8; sys_platform == "win32"
+# comtypes: COM automation and UI Automation bindings
+comtypes>=1.2.0; sys_platform == "win32"
+# pywin32: Win32 API access (process, window, registry)
+pywin32>=306; sys_platform == "win32"
+
+# --- Image-based automation (Citrix / RDP / fallback) ---
+Pillow>=10.0.0
+opencv-python>=4.8.0
+
+# --- Electron / web-view desktop apps ---
+playwright>=1.40.0
+
+# ============================================================
+# OPTIONAL — install only when adapter is required:
+# FlaUI Python bindings: pip install flaui  (requires .NET 6+)
+# AutoIt Python: pip install pyautoit
+# ============================================================
+
+# --- Testing infrastructure ---
+pytest>=7.4.4
+pytest-mock>=3.12.0
+pytest-cov>=4.1.0
+pytest-asyncio>=0.23.0
+
+# --- Code quality ---
+black>=24.1.0
+ruff>=0.2.0
+mypy>=1.8.0

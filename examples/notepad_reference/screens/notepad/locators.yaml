@@ -1,0 +1,26 @@
+# Notepad screen — element locators
+#
+# Keys are automatically namespaced as NOTEPAD.<KEY> when loaded by the platform.
+# Strategy priority: automation_id > name > control_type > class_name > xpath > image
+
+TEXT_AREA:
+  primary:
+    strategy: control_type
+    value: "Document"
+  fallback:
+    - strategy: control_type
+      value: "Edit"
+    - strategy: class_name
+      value: "Edit"
+  metadata:
+    description: >
+      Main text editing area. Windows 11 Notepad (WinUI3) exposes this as a
+      Document control; Windows 10 Notepad exposes it as an Edit control.
+      The fallback chain handles both OS versions automatically.
+
+TITLE_BAR:
+  primary:
+    strategy: name
+    value: "Notepad"
+  metadata:
+    description: Notepad main window title bar — used to verify the window is active.

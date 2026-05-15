@@ -1,0 +1,10 @@
+# Robot Framework output — generated at runtime, never commit
+reports/
+output.xml
+log.html
+report.html
+
+# Python
+*.pyc
+__pycache__/
+.env

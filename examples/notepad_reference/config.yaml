@@ -1,0 +1,10 @@
+framework:
+  adapter_mode: flaui
+  retry_count: 2
+  screenshot_on_failure: true
+  logging_level: INFO
+
+application:
+  name: Notepad
+  executable: C:\Windows\System32\notepad.exe
+  launch_timeout_seconds: 15

@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<keywordspec name="DesktopAutomationLibrary" type="LIBRARY" format="HTML" scope="SUITE" generated="2026-05-15T07:27:44+00:00" specversion="6" source="c:\Users\krishro\AI\Personal\Desktop-Claude-Enterprise-Autoamtion-Framework\desktop_automation_platform\robot_keywords\library.py" lineno="29">
+<version>1.0.0</version>
+<doc>Robot Framework library for automating Windows desktop applications.
+
+Supports WPF, WinForms, WinUI3, MAUI, Win32, Java Swing, Electron, Citrix/RDP.
+Technology is auto-detected by default.
+
+Import with the paths to your config and locators files:
+
+| Library | DesktopAutomationLibrary | config_path=config.yaml | locator_path=locators.yaml |</doc>
+<tags>
+</tags>
+<inits>
+<init name="__init__" lineno="45">
+<arguments repr="config_path: str = config.yaml, locator_path: str | None = None, healing_report: bool = True">
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="config_path: str = config.yaml">
+<name>config_path</name>
+<type name="str" typedoc="string"/>
+<default>config.yaml</default>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="locator_path: str | None = None">
+<name>locator_path</name>
+<type name="Union" union="true">
+<type name="str" typedoc="string"/>
+<type name="None" typedoc="None"/>
+</type>
+<default>None</default>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="healing_report: bool = True">
+<name>healing_report</name>
+<type name="bool" typedoc="boolean"/>
+<default>True</default>
+</arg>
+</arguments>
+<doc>Initialize self.  See help(type(self)) for accurate signature.</doc>
+<shortdoc>Initialize self.  See help(type(self)) for accurate signature.</shortdoc>
+</init>
+</inits>
+<keywords>
+<kw name="Attach Application" lineno="191">
+<arguments repr="process_id: int | str, app_name: str = ">
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="process_id: int | str">
+<name>process_id</name>
+<type name="Union" union="true">
+<type name="int" typedoc="integer"/>
+<type name="str" typedoc="string"/>
+</type>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="app_name: str = ">
+<name>app_name</name>
+<type name="str" typedoc="string"/>
+<default/>
+</arg>
+</arguments>
+<doc>Attach to a running application by its Windows process ID.
+
+Examples:
+| Attach Application | 1234 |
+| Attach Application | 1234 | app_name=Claims Desktop |</doc>
+<shortdoc>Attach to a running application by its Windows process ID.</shortdoc>
+</kw>
+<kw name="Clear Text" lineno="305">
+<arguments repr="locator: str, **kwargs: Any">
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="locator: str">
+<name>locator</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="VAR_NAMED" required="false" repr="**kwargs: Any">
+<name>kwargs</name>
+<type name="Any" typedoc="Any"/>
+</arg>
+</arguments>
+<doc>Clear all text from the field identified by &lt;span class="name"&gt;`locator&lt;/span&gt;`.
+
+Example:
+| Clear Text | SEARCH_BOX |</doc>
+<shortdoc>Clear all text from the field identified by ``locator``.</shortdoc>
+</kw>
+<kw name="Click" lineno="226">
+<arguments repr="locator: str, **kwargs: Any">
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="locator: str">
+<name>locator</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="VAR_NAMED" required="false" repr="**kwargs: Any">
+<name>kwargs</name>
+<type name="Any" typedoc="Any"/>
+</arg>
+</arguments>
+<doc>Left-click the element identified by &lt;span class="name"&gt;`locator&lt;/span&gt;`.
+
+Example:
+| Click | LOGIN_BUTTON |</doc>
+<shortdoc>Left-click the element identified by ``locator``.</shortdoc>
+</kw>
+<kw name="Close Application" lineno="205">
+<arguments repr="">
+</arguments>
+<doc>Close the application and end the session.
+
+Example:
+| Close Application |</doc>
+<shortdoc>Close the application and end the session.</shortdoc>
+</kw>
+<kw name="Double Click" lineno="236">
+<arguments repr="locator: str, **kwargs: Any">
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="locator: str">
+<name>locator</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="VAR_NAMED" required="false" repr="**kwargs: Any">
+<name>kwargs</name>
+<type name="Any" typedoc="Any"/>
+</arg>
+</arguments>
+<doc>Double-click the element identified by &lt;span class="name"&gt;`locator&lt;/span&gt;`.
+
+Example:
+| Double Click | FILE_ICON |</doc>
+<shortdoc>Double-click the element identified by ``locator``.</shortdoc>
+</kw>
+<kw name="Drag And Drop" lineno="256">
+<arguments repr="source_locator: str, target_locator: str, **kwargs: Any">
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="source_locator: str">
+<name>source_locator</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="target_locator: str">
+<name>target_locator</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="VAR_NAMED" required="false" repr="**kwargs: Any">
+<name>kwargs</name>
+<type name="Any" typedoc="Any"/>
+</arg>
+</arguments>
+<doc>Drag &lt;span class="name"&gt;`source_locator&lt;/span&gt;&lt;span class="name"&gt; and drop it onto &lt;/span&gt;&lt;span class="name"&gt;target_locator&lt;/span&gt;`.
+
+Example:
+| Drag And Drop | TASK_CARD | DROP_ZONE |</doc>
+<shortdoc>Drag ``source_locator`` and drop it onto ``target_locator``.</shortdoc>
+</kw>
+<kw name="Element Exists" lineno="345">
+<arguments repr="locator: str, timeout: float = 3.0, **kwargs: Any">
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="locator: str">
+<name>locator</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="timeout: float = 3.0">
+<name>timeout</name>
+<type name="float" typedoc="float"/>
+<default>3.0</default>
+</arg>
+<arg kind="VAR_NAMED" required="false" repr="**kwargs: Any">
+<name>kwargs</name>
+<type name="Any" typedoc="Any"/>
+</arg>
+</arguments>
+<returntype name="bool" typedoc="boolean"/>
+<doc>Return &lt;span class="name"&gt;`True&lt;/span&gt;&lt;span class="name"&gt; if the element is present, &lt;/span&gt;&lt;span class="name"&gt;False&lt;/span&gt;` otherwise.
+
+Does NOT fail the test — safe to use in conditional logic.
+
+Example:
+| ${visible}= | Element Exists | ERROR_BANNER | timeout=2 |
+| Run Keyword If | ${visible} | Log | Error appeared |</doc>
+<shortdoc>Return ``True`` if the element is present, ``False`` otherwise.</shortdoc>
+</kw>
+<kw name="Element Should Exist" lineno="374">
+<arguments repr="locator: str, timeout: float = 10.0, msg: str = ">
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="locator: str">
+<name>locator</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="timeout: float = 10.0">
+<name>timeout</name>
+<type name="float" typedoc="float"/>
+<default>10.0</default>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="msg: str = ">
+<name>msg</name>
+<type name="str" typedoc="string"/>
+<default/>
+</arg>
+</arguments>
+<doc>Fail the test if the element does not exist within &lt;span class="name"&gt;`timeout&lt;/span&gt;` seconds.
+
+Example:
+| Element Should Exist | SUCCESS_BANNER |
+| Element Should Exist | SAVE_BUTTON | timeout=5 | msg=Save button missing |</doc>
+<shortdoc>Fail the test if the element does not exist within ``timeout`` seconds.</shortdoc>
+</kw>
+<kw name="Element Should Not Exist" lineno="388">
+<arguments repr="locator: str, timeout: float = 3.0, msg: str = ">
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="locator: str">
+<name>locator</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="timeout: float = 3.0">
+<name>timeout</name>
+<type name="float" typedoc="float"/>
+<default>3.0</default>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="msg: str = ">
+<name>msg</name>
+<type name="str" typedoc="string"/>
+<default/>
+</arg>
+</arguments>
+<doc>Fail the test if the element IS present (it should be absent).
+
+Example:
+| Element Should Not Exist | ERROR_BANNER |</doc>
+<shortdoc>Fail the test if the element IS present (it should be absent).</shortdoc>
+</kw>
+<kw name="Get Element Attribute" lineno="329">
+<arguments repr="locator: str, attribute: str, **kwargs: Any">
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="locator: str">
+<name>locator</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="attribute: str">
+<name>attribute</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="VAR_NAMED" required="false" repr="**kwargs: Any">
+<name>kwargs</name>
+<type name="Any" typedoc="Any"/>
+</arg>
+</arguments>
+<returntype name="Union" union="true">
+<type name="str" typedoc="string"/>
+<type name="None" typedoc="None"/>
+</returntype>
+<doc>Return the value of a named attribute of the element.
+
+Common attributes: &lt;span class="name"&gt;`name&lt;/span&gt;&lt;span class="name"&gt;, &lt;/span&gt;&lt;span class="name"&gt;automation_id&lt;/span&gt;&lt;span class="name"&gt;, &lt;/span&gt;&lt;span class="name"&gt;class_name&lt;/span&gt;`,
+&lt;span class="name"&gt;`is_enabled&lt;/span&gt;&lt;span class="name"&gt;, &lt;/span&gt;&lt;span class="name"&gt;is_offscreen&lt;/span&gt;&lt;span class="name"&gt;, &lt;/span&gt;&lt;span class="name"&gt;value&lt;/span&gt;`.
+
+Example:
+| ${id}= | Get Element Attribute | LOGIN_BUTTON | automation_id |</doc>
+<shortdoc>Return the value of a named attribute of the element.</shortdoc>
+</kw>
+<kw name="Get Healing Report" lineno="476">
+<arguments repr="">
+</arguments>
+<returntype name="str" typedoc="string"/>
+<doc>Return a human-readable self-healing summary for the current test run.
+
+Describes every locator that healed (fell back to a secondary strategy or
+was recovered by popup dismissal / stale window reattachment / fuzzy match)
+and recommends which locators should be updated in &lt;span class="name"&gt;`locators.yaml&lt;/span&gt;`.
+
+Call this at the end of a suite to review locator health:
+
+Examples:
+| ${report}= | Get Healing Report |
+| Log | ${report} |
+| Should Not Contain | ${report} | ACTION: |    # fail if any locator needs updating</doc>
+<shortdoc>Return a human-readable self-healing summary for the current test run.</shortdoc>
+</kw>
+<kw name="Get Text" lineno="319">
+<arguments repr="locator: str, **kwargs: Any">
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="locator: str">
+<name>locator</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="VAR_NAMED" required="false" repr="**kwargs: Any">
+<name>kwargs</name>
+<type name="Any" typedoc="Any"/>
+</arg>
+</arguments>
+<returntype name="str" typedoc="string"/>
+<doc>Return the visible text of the element identified by &lt;span class="name"&gt;`locator&lt;/span&gt;`.
+
+Example:
+| ${status}= | Get Text | STATUS_LABEL |
+| Should Contain | ${status} | Active |</doc>
+<shortdoc>Return the visible text of the element identified by ``locator``.</shortdoc>
+</kw>
+<kw name="Input Text" lineno="273">
+<arguments repr="locator: str, text: str, clear_first: bool = True, **kwargs: Any">
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="locator: str">
+<name>locator</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="text: str">
+<name>text</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="clear_first: bool = True">
+<name>clear_first</name>
+<type name="bool" typedoc="boolean"/>
+<default>True</default>
+</arg>
+<arg kind="VAR_NAMED" required="false" repr="**kwargs: Any">
+<name>kwargs</name>
+<type name="Any" typedoc="Any"/>
+</arg>
+</arguments>
+<doc>Type &lt;span class="name"&gt;`text&lt;/span&gt;&lt;span class="name"&gt; into the field identified by &lt;/span&gt;&lt;span class="name"&gt;locator&lt;/span&gt;`.
+
+Clears the field first by default (set &lt;span class="name"&gt;`clear_first=False&lt;/span&gt;` to append).
+
+Examples:
+| Input Text | USERNAME_FIELD | john.doe@company.com |
+| Input Text | NOTES_FIELD | extra text | clear_first=False |</doc>
+<shortdoc>Type ``text`` into the field identified by ``locator``.</shortdoc>
+</kw>
+<kw name="Launch Application" lineno="146">
+<arguments repr="config_path: str | None = None, locator_path: str | None = None">
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="config_path: str | None = None">
+<name>config_path</name>
+<type name="Union" union="true">
+<type name="str" typedoc="string"/>
+<type name="None" typedoc="None"/>
+</type>
+<default>None</default>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="locator_path: str | None = None">
+<name>locator_path</name>
+<type name="Union" union="true">
+<type name="str" typedoc="string"/>
+<type name="None" typedoc="None"/>
+</type>
+<default>None</default>
+</arg>
+</arguments>
+<doc>Launch the desktop application defined in &lt;span class="name"&gt;`config.yaml&lt;/span&gt;`.
+
+Optionally override the config/locator paths set at import time.
+
+Examples:
+| Launch Application |
+| Launch Application | config_path=other.yaml |</doc>
+<shortdoc>Launch the desktop application defined in ``config.yaml``.</shortdoc>
+</kw>
+<kw name="Maximize Window" lineno="421">
+<arguments repr="window_title: str = ">
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="window_title: str = ">
+<name>window_title</name>
+<type name="str" typedoc="string"/>
+<default/>
+</arg>
+</arguments>
+<doc>Maximise the application window.
+
+Example:
+| Maximize Window |</doc>
+<shortdoc>Maximise the application window.</shortdoc>
+</kw>
+<kw name="Minimize Window" lineno="432">
+<arguments repr="window_title: str = ">
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="window_title: str = ">
+<name>window_title</name>
+<type name="str" typedoc="string"/>
+<default/>
+</arg>
+</arguments>
+<doc>Minimise the application window.
+
+Example:
+| Minimize Window |</doc>
+<shortdoc>Minimise the application window.</shortdoc>
+</kw>
+<kw name="Right Click" lineno="246">
+<arguments repr="locator: str, **kwargs: Any">
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="locator: str">
+<name>locator</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="VAR_NAMED" required="false" repr="**kwargs: Any">
+<name>kwargs</name>
+<type name="Any" typedoc="Any"/>
+</arg>
+</arguments>
+<doc>Right-click the element (opens context menu).
+
+Example:
+| Right Click | TABLE_ROW |</doc>
+<shortdoc>Right-click the element (opens context menu).</shortdoc>
+</kw>
+<kw name="Scan Application Screen" lineno="499">
+<arguments repr="output_path: str = scanned_locators.yaml, max_depth: int = 8, overwrite: bool = True, include_containers: bool = False">
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="output_path: str = scanned_locators.yaml">
+<name>output_path</name>
+<type name="str" typedoc="string"/>
+<default>scanned_locators.yaml</default>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="max_depth: int = 8">
+<name>max_depth</name>
+<type name="int" typedoc="integer"/>
+<default>8</default>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="overwrite: bool = True">
+<name>overwrite</name>
+<type name="bool" typedoc="boolean"/>
+<default>True</default>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="include_containers: bool = False">
+<name>include_containers</name>
+<type name="bool" typedoc="boolean"/>
+<default>False</default>
+</arg>
+</arguments>
+<returntype name="str" typedoc="string"/>
+<doc>Scan the running application's UI tree and generate a locators.yaml file.
+
+Walks the live Windows UIA accessibility tree, scores every element for
+locator quality, and writes a ready-to-use &lt;span class="name"&gt;`locators.yaml&lt;/span&gt;&lt;span class="name"&gt; to &lt;/span&gt;&lt;span class="name"&gt;output_path&lt;/span&gt;`.
+Drop the output file into &lt;span class="name"&gt;`screens/&lt;screen&gt;/locators.yaml&lt;/span&gt;`, review the
+generated keys, and it is ready to use.
+
+Score key:
+| ★★★ | automation_id — developer-set, most stable        |
+| ★★  | name — accessible label or button caption          |
+| ★   | class_name — Win32 class, stable but less unique   |
+
+Examples:
+| Scan Application Screen |
+| Scan Application Screen | output_path=screens/login/locators.yaml |
+| Scan Application Screen | output_path=screens/dashboard/locators.yaml | max_depth=5 |</doc>
+<shortdoc>Scan the running application's UI tree and generate a locators.yaml file.</shortdoc>
+</kw>
+<kw name="Select Item" lineno="405">
+<arguments repr="locator: str, item: str, **kwargs: Any">
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="locator: str">
+<name>locator</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="item: str">
+<name>item</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="VAR_NAMED" required="false" repr="**kwargs: Any">
+<name>kwargs</name>
+<type name="Any" typedoc="Any"/>
+</arg>
+</arguments>
+<doc>Select an item from a dropdown / combo box / list by visible text.
+
+Example:
+| Select Item | CLAIM_TYPE_DROPDOWN | Medical |</doc>
+<shortdoc>Select an item from a dropdown / combo box / list by visible text.</shortdoc>
+</kw>
+<kw name="Send Keys" lineno="294">
+<arguments repr="locator: str, keys: str, **kwargs: Any">
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="locator: str">
+<name>locator</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="keys: str">
+<name>keys</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="VAR_NAMED" required="false" repr="**kwargs: Any">
+<name>kwargs</name>
+<type name="Any" typedoc="Any"/>
+</arg>
+</arguments>
+<doc>Send keyboard keys to the element. Use &lt;span class="name"&gt;`{ENTER}&lt;/span&gt;&lt;span class="name"&gt;, &lt;/span&gt;&lt;span class="name"&gt;{TAB}&lt;/span&gt;&lt;span class="name"&gt;, &lt;/span&gt;&lt;span class="name"&gt;{F5}&lt;/span&gt;`, etc.
+
+Examples:
+| Send Keys | SEARCH_BOX | {ENTER} |
+| Send Keys | FORM | {CTRL}+{A} |</doc>
+<shortdoc>Send keyboard keys to the element. Use ``{ENTER}``, ``{TAB}``, ``{F5}``, etc.</shortdoc>
+</kw>
+<kw name="Switch Window" lineno="443">
+<arguments repr="window_title: str, timeout: float = 10.0">
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="window_title: str">
+<name>window_title</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="timeout: float = 10.0">
+<name>timeout</name>
+<type name="float" typedoc="float"/>
+<default>10.0</default>
+</arg>
+</arguments>
+<doc>Switch focus to a window whose title contains &lt;span class="name"&gt;`window_title&lt;/span&gt;`.
+
+Examples:
+| Switch Window | Save As |
+| Switch Window | Confirm Delete | timeout=5 |</doc>
+<shortdoc>Switch focus to a window whose title contains ``window_title``.</shortdoc>
+</kw>
+<kw name="Take Screenshot" lineno="459">
+<arguments repr="filename: str = ">
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="filename: str = ">
+<name>filename</name>
+<type name="str" typedoc="string"/>
+<default/>
+</arg>
+</arguments>
+<returntype name="str" typedoc="string"/>
+<doc>Capture a screenshot and return the saved file path.
+
+Example:
+| Take Screenshot |
+| ${path}= | Take Screenshot | filename=login_screen |</doc>
+<shortdoc>Capture a screenshot and return the saved file path.</shortdoc>
+</kw>
+<kw name="Wait For Element" lineno="359">
+<arguments repr="locator: str, timeout: float = 30.0, **kwargs: Any">
+<arg kind="POSITIONAL_OR_NAMED" required="true" repr="locator: str">
+<name>locator</name>
+<type name="str" typedoc="string"/>
+</arg>
+<arg kind="POSITIONAL_OR_NAMED" required="false" repr="timeout: float = 30.0">
+<name>timeout</name>
+<type name="float" typedoc="float"/>
+<default>30.0</default>
+</arg>
+<arg kind="VAR_NAMED" required="false" repr="**kwargs: Any">
+<name>kwargs</name>
+<type name="Any" typedoc="Any"/>
+</arg>
+</arguments>
+<doc>Wait until the element appears. Fails if it doesn't appear within &lt;span class="name"&gt;`timeout&lt;/span&gt;` seconds.
+
+Example:
+| Wait For Element | DASHBOARD_TITLE | timeout=20 |</doc>
+<shortdoc>Wait until the element appears. Fails if it doesn't appear within ``timeout`` seconds.</shortdoc>
+</kw>
+</keywords>
+<typedocs>
+<type name="Any" type="Standard">
+<doc>&lt;p&gt;Any value is accepted. No conversion is done.&lt;/p&gt;</doc>
+<accepts>
+<type>Any</type>
+</accepts>
+<usages>
+<usage>Clear Text</usage>
+<usage>Click</usage>
+<usage>Double Click</usage>
+<usage>Drag And Drop</usage>
+<usage>Element Exists</usage>
+<usage>Get Element Attribute</usage>
+<usage>Get Text</usage>
+<usage>Input Text</usage>
+<usage>Right Click</usage>
+<usage>Select Item</usage>
+<usage>Send Keys</usage>
+<usage>Wait For Element</usage>
+</usages>
+</type>
+<type name="boolean" type="Standard">
+<doc>&lt;p&gt;Strings &lt;code&gt;TRUE&lt;/code&gt;, &lt;code&gt;YES&lt;/code&gt;, &lt;code&gt;ON&lt;/code&gt;, &lt;code&gt;1&lt;/code&gt; and possible localization specific "true strings" are converted to Boolean &lt;code&gt;True&lt;/code&gt;, the empty string, strings &lt;code&gt;FALSE&lt;/code&gt;, &lt;code&gt;NO&lt;/code&gt;, &lt;code&gt;OFF&lt;/code&gt; and &lt;code&gt;0&lt;/code&gt; and possibly localization specific "false strings" are converted to Boolean &lt;code&gt;False&lt;/code&gt;, and the string &lt;code&gt;NONE&lt;/code&gt; is converted to the Python &lt;code&gt;None&lt;/code&gt; object. Other strings and all other values are passed as-is, allowing keywords to handle them specially if needed. All string comparisons are case-insensitive.&lt;/p&gt;
+&lt;p&gt;Examples: &lt;code&gt;TRUE&lt;/code&gt; (converted to &lt;code&gt;True&lt;/code&gt;), &lt;code&gt;off&lt;/code&gt; (converted to &lt;code&gt;False&lt;/code&gt;), &lt;code&gt;example&lt;/code&gt; (used as-is)&lt;/p&gt;</doc>
+<accepts>
+<type>string</type>
+<type>integer</type>
+<type>float</type>
+<type>None</type>
+</accepts>
+<usages>
+<usage>__init__</usage>
+<usage>Element Exists</usage>
+<usage>Input Text</usage>
+<usage>Scan Application Screen</usage>
+</usages>
+</type>
+<type name="float" type="Standard">
+<doc>&lt;p&gt;Conversion is done using Python's &lt;a href="https://docs.python.org/library/functions.html#float"&gt;float&lt;/a&gt; built-in function.&lt;/p&gt;
+&lt;p&gt;Spaces and underscores can be used as visual separators for digit grouping purposes.&lt;/p&gt;
+&lt;p&gt;Examples: &lt;code&gt;3.14&lt;/code&gt;, &lt;code&gt;2.9979e8&lt;/code&gt;, &lt;code&gt;10 000.000 01&lt;/code&gt;&lt;/p&gt;</doc>
+<accepts>
+<type>string</type>
+<type>Real</type>
+</accepts>
+<usages>
+<usage>Element Exists</usage>
+<usage>Element Should Exist</usage>
+<usage>Element Should Not Exist</usage>
+<usage>Switch Window</usage>
+<usage>Wait For Element</usage>
+</usages>
+</type>
+<type name="integer" type="Standard">
+<doc>&lt;p&gt;Conversion is done using Python's &lt;a href="https://docs.python.org/library/functions.html#int"&gt;int&lt;/a&gt; built-in function. Floating point numbers are accepted only if they can be represented as integers exactly. For example, &lt;code&gt;1.0&lt;/code&gt; is accepted and &lt;code&gt;1.1&lt;/code&gt; is not.&lt;/p&gt;
+&lt;p&gt;It is possible to use hexadecimal, octal and binary numbers by prefixing values with &lt;code&gt;0x&lt;/code&gt;, &lt;code&gt;0o&lt;/code&gt; and &lt;code&gt;0b&lt;/code&gt;, respectively. Spaces and underscores can be used as visual separators for digit grouping purposes.&lt;/p&gt;
+&lt;p&gt;Examples: &lt;code&gt;42&lt;/code&gt;, &lt;code&gt;-1&lt;/code&gt;, &lt;code&gt;0b1010&lt;/code&gt;, &lt;code&gt;10 000 000&lt;/code&gt;, &lt;code&gt;0xBAD_C0FFEE&lt;/code&gt;&lt;/p&gt;</doc>
+<accepts>
+<type>string</type>
+<type>float</type>
+</accepts>
+<usages>
+<usage>Attach Application</usage>
+<usage>Scan Application Screen</usage>
+</usages>
+</type>
+<type name="None" type="Standard">
+<doc>&lt;p&gt;String &lt;code&gt;NONE&lt;/code&gt; (case-insensitive) and the empty string are converted to the Python &lt;code&gt;None&lt;/code&gt; object. Other values cause an error.&lt;/p&gt;
+&lt;p&gt;Converting the empty string is new in Robot Framework 7.4.&lt;/p&gt;</doc>
+<accepts>
+<type>string</type>
+</accepts>
+<usages>
+<usage>__init__</usage>
+<usage>Get Element Attribute</usage>
+<usage>Launch Application</usage>
+</usages>
+</type>
+<type name="string" type="Standard">
+<doc>&lt;p&gt;All arguments are converted to Unicode strings.&lt;/p&gt;
+&lt;p&gt;Most values are converted simply by using &lt;code&gt;str(value)&lt;/code&gt;. An exception is that bytes are mapped directly to Unicode code points with same ordinals. This means that, for example, &lt;code&gt;b"hyv\xe4"&lt;/code&gt; becomes &lt;code&gt;"hyvä"&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Converting bytes specially is new Robot Framework 7.4.&lt;/p&gt;</doc>
+<accepts>
+<type>Any</type>
+</accepts>
+<usages>
+<usage>__init__</usage>
+<usage>Attach Application</usage>
+<usage>Clear Text</usage>
+<usage>Click</usage>
+<usage>Double Click</usage>
+<usage>Drag And Drop</usage>
+<usage>Element Exists</usage>
+<usage>Element Should Exist</usage>
+<usage>Element Should Not Exist</usage>
+<usage>Get Element Attribute</usage>
+<usage>Get Healing Report</usage>
+<usage>Get Text</usage>
+<usage>Input Text</usage>
+<usage>Launch Application</usage>
+<usage>Maximize Window</usage>
+<usage>Minimize Window</usage>
+<usage>Right Click</usage>
+<usage>Scan Application Screen</usage>
+<usage>Select Item</usage>
+<usage>Send Keys</usage>
+<usage>Switch Window</usage>
+<usage>Take Screenshot</usage>
+<usage>Wait For Element</usage>
+</usages>
+</type>
+</typedocs>
+</keywordspec>

@@ -1,0 +1,40 @@
+# Claims Entry screen — element locators
+#
+# Keys here are automatically namespaced as CLAIMS_ENTRY.<KEY> when loaded by the platform.
+# Strategy priority: automation_id > name > control_type > class_name > xpath > image
+# Always provide at least one fallback strategy.
+#
+# Replace the examples below with real element identifiers for your application.
+# Run 'Scan Application Screen' from a Robot test to auto-discover elements.
+
+EXAMPLE_BUTTON:
+  primary:
+    strategy: automation_id
+    value: "btnExample"
+  fallback:
+    - strategy: name
+      value: "Example"
+  metadata:
+    description: Replace — example button on the Claims Entry screen
+
+EXAMPLE_FIELD:
+  primary:
+    strategy: automation_id
+    value: "txtExample"
+  fallback:
+    - strategy: name
+      value: "Example Field"
+  metadata:
+    description: Replace — example text input on the Claims Entry screen
+
+EXAMPLE_LABEL:
+  primary:
+    strategy: automation_id
+    value: "lblExample"
+  fallback:
+    - strategy: name
+      value: "Example Label"
+    - strategy: control_type
+      value: "Text"
+  metadata:
+    description: Replace — example status/read-only label on the Claims Entry screen

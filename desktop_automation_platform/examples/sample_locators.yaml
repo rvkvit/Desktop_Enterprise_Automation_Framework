@@ -1,0 +1,300 @@
+# =============================================================================
+# Desktop Automation Platform — Sample Locator Repository
+# =============================================================================
+# This file defines all UI element locators for the Claims Desktop application.
+#
+# FORMAT PER ELEMENT
+# ------------------
+#   ELEMENT_NAME:
+#     primary:
+#       strategy: <strategy>   # automation_id | name | class_name |
+#                              # control_type | xpath | image |
+#                              # css_selector | text | partial_text
+#       value: <value>
+#       timeout: 15            # optional — overrides framework default
+#       index: 0               # optional — select Nth match (0-based)
+#     fallbacks:               # optional — tried in order if primary fails
+#       - strategy: name
+#         value: Login
+#       - strategy: image
+#         value: login_button.png
+#     scope: PARENT_LOCATOR    # optional — search within parent element
+#
+# NAMING CONVENTIONS
+# ------------------
+# Use UPPER_SNAKE_CASE.  Group by screen/panel using comments.
+# Keep automation_id as primary when available — it is the most stable.
+# =============================================================================
+
+# =============================================================================
+# LOGIN SCREEN
+# =============================================================================
+
+LOGIN_USERNAME_FIELD:
+  primary:
+    strategy: automation_id
+    value: txtUsername
+    timeout: 10
+  fallbacks:
+    - strategy: name
+      value: Username
+    - strategy: class_name
+      value: TextBox
+
+LOGIN_PASSWORD_FIELD:
+  primary:
+    strategy: automation_id
+    value: txtPassword
+  fallbacks:
+    - strategy: name
+      value: Password
+    - strategy: class_name
+      value: PasswordBox
+
+LOGIN_BUTTON:
+  primary:
+    strategy: automation_id
+    value: btnLogin
+  fallbacks:
+    - strategy: name
+      value: Login
+    - strategy: name
+      value: Sign In
+    - strategy: image
+      value: login_button.png
+      # Image template used as last resort (Citrix / slow rendering)
+
+LOGIN_FORGOT_PASSWORD_LINK:
+  primary:
+    strategy: name
+    value: Forgot Password?
+  fallbacks:
+    - strategy: partial_text
+      value: Forgot
+
+LOGIN_ERROR_MESSAGE:
+  primary:
+    strategy: automation_id
+    value: lblLoginError
+  fallbacks:
+    - strategy: name
+      value: Invalid credentials
+
+# =============================================================================
+# MAIN NAVIGATION
+# =============================================================================
+
+NAV_CLAIMS_MENU_ITEM:
+  primary:
+    strategy: automation_id
+    value: menuClaims
+  fallbacks:
+    - strategy: name
+      value: Claims
+    - strategy: control_type
+      value: MenuItem
+
+NAV_REPORTS_MENU_ITEM:
+  primary:
+    strategy: automation_id
+    value: menuReports
+  fallbacks:
+    - strategy: name
+      value: Reports
+
+NAV_SETTINGS_MENU_ITEM:
+  primary:
+    strategy: automation_id
+    value: menuSettings
+  fallbacks:
+    - strategy: name
+      value: Settings
+    - strategy: image
+      value: settings_gear_icon.png
+
+NAV_USER_PROFILE_BUTTON:
+  primary:
+    strategy: automation_id
+    value: btnUserProfile
+  fallbacks:
+    - strategy: name
+      value: User Profile
+    - strategy: control_type
+      value: Button
+
+# =============================================================================
+# CLAIMS LIST SCREEN
+# =============================================================================
+
+CLAIMS_LIST_GRID:
+  primary:
+    strategy: automation_id
+    value: dgClaims
+  fallbacks:
+    - strategy: class_name
+      value: DataGrid
+
+CLAIMS_SEARCH_FIELD:
+  primary:
+    strategy: automation_id
+    value: txtClaimSearch
+  fallbacks:
+    - strategy: name
+      value: Search Claims
+
+CLAIMS_SEARCH_BUTTON:
+  primary:
+    strategy: automation_id
+    value: btnSearch
+  fallbacks:
+    - strategy: name
+      value: Search
+  scope: CLAIMS_SEARCH_PANEL
+
+CLAIMS_NEW_CLAIM_BUTTON:
+  primary:
+    strategy: automation_id
+    value: btnNewClaim
+  fallbacks:
+    - strategy: name
+      value: New Claim
+    - strategy: name
+      value: Create Claim
+
+CLAIMS_STATUS_FILTER_DROPDOWN:
+  primary:
+    strategy: automation_id
+    value: cboStatusFilter
+  fallbacks:
+    - strategy: name
+      value: Status Filter
+    - strategy: control_type
+      value: ComboBox
+
+# =============================================================================
+# CLAIM DETAIL SCREEN
+# =============================================================================
+
+CLAIM_ID_FIELD:
+  primary:
+    strategy: automation_id
+    value: txtClaimId
+  fallbacks:
+    - strategy: name
+      value: Claim ID
+
+CLAIM_AMOUNT_FIELD:
+  primary:
+    strategy: automation_id
+    value: txtClaimAmount
+  fallbacks:
+    - strategy: name
+      value: Claim Amount
+
+CLAIM_DATE_PICKER:
+  primary:
+    strategy: automation_id
+    value: dpClaimDate
+  fallbacks:
+    - strategy: class_name
+      value: DatePicker
+
+CLAIM_STATUS_DROPDOWN:
+  primary:
+    strategy: automation_id
+    value: cboClaimStatus
+  fallbacks:
+    - strategy: name
+      value: Claim Status
+
+CLAIM_SAVE_BUTTON:
+  primary:
+    strategy: automation_id
+    value: btnSaveClaim
+  fallbacks:
+    - strategy: name
+      value: Save
+    - strategy: name
+      value: Save Claim
+    - strategy: image
+      value: save_button.png
+
+CLAIM_CANCEL_BUTTON:
+  primary:
+    strategy: automation_id
+    value: btnCancelClaim
+  fallbacks:
+    - strategy: name
+      value: Cancel
+
+CLAIM_DELETE_BUTTON:
+  primary:
+    strategy: automation_id
+    value: btnDeleteClaim
+  fallbacks:
+    - strategy: name
+      value: Delete
+
+CLAIM_NOTES_TEXT_AREA:
+  primary:
+    strategy: automation_id
+    value: txtNotes
+  fallbacks:
+    - strategy: name
+      value: Notes
+    - strategy: class_name
+      value: RichTextBox
+
+# =============================================================================
+# COMMON DIALOGS
+# =============================================================================
+
+DIALOG_CONFIRM_YES_BUTTON:
+  primary:
+    strategy: name
+    value: Yes
+  fallbacks:
+    - strategy: automation_id
+      value: btnYes
+    - strategy: name
+      value: OK
+    - strategy: image
+      value: dialog_yes_button.png
+
+DIALOG_CONFIRM_NO_BUTTON:
+  primary:
+    strategy: name
+    value: No
+  fallbacks:
+    - strategy: automation_id
+      value: btnNo
+    - strategy: name
+      value: Cancel
+
+DIALOG_OK_BUTTON:
+  primary:
+    strategy: name
+    value: OK
+  fallbacks:
+    - strategy: automation_id
+      value: btnOK
+    - strategy: name
+      value: Close
+
+PROGRESS_BAR:
+  primary:
+    strategy: automation_id
+    value: progressMain
+  fallbacks:
+    - strategy: control_type
+      value: ProgressBar
+    - strategy: class_name
+      value: ProgressBar
+
+STATUS_BAR_MESSAGE:
+  primary:
+    strategy: automation_id
+    value: lblStatusMessage
+  fallbacks:
+    - strategy: class_name
+      value: StatusBarItem

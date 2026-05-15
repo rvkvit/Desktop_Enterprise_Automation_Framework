@@ -1,0 +1,16 @@
+framework:
+  adapter_mode: flaui          # flaui | winappdriver | pywinauto | playwright
+  retry_count: 2
+  screenshot_on_failure: true
+  logging_level: INFO
+
+application:
+  name: Claims Desktop
+  executable: C:\Apps\Claims\ClaimsDesktop.exe
+  launch_timeout_seconds: 15
+  # window_title: "Optional — title of the main window"
+  # working_directory: "Optional"
+  # launch_arguments:
+  #   - "--env=UAT"
+  # environment:
+  #   MY_ENV_VAR: "${MY_ENV_VAR}"

@@ -1,0 +1,273 @@
+##############################################################################
+# Claims Desktop — Locator Repository
+#
+# Each entry is a symbolic name → how to find that element on screen.
+#
+# STRATEGIES (in order of reliability):
+#   automation_id  — unique ID set by developers (most reliable)
+#   name           — visible label / window title
+#   class_name     — Windows control class (fallback)
+#   control_type   — kind of control: button, edit, combobox, etc.
+#
+# HOW TO FIND AUTOMATION IDs:
+#   1. Download "Accessibility Insights for Windows" (free, from Microsoft)
+#   2. Hover over an element — it shows the AutomationId, Name, ClassName
+#   3. Copy the AutomationId here as the primary strategy
+##############################################################################
+
+# ─── Login Screen ─────────────────────────────────────────────────────────────
+
+LOGIN_USERNAME_FIELD:
+  primary:
+    strategy: automation_id
+    value: "txtUsername"
+    timeout: 10
+  fallbacks:
+    - strategy: name
+      value: "Username"
+    - strategy: class_name
+      value: "TextBox"
+  metadata:
+    description: Username / employee ID field on the login screen
+    screen: Login
+
+LOGIN_PASSWORD_FIELD:
+  primary:
+    strategy: automation_id
+    value: "txtPassword"
+  fallbacks:
+    - strategy: name
+      value: "Password"
+  metadata:
+    description: Password field on the login screen
+    screen: Login
+
+LOGIN_BUTTON:
+  primary:
+    strategy: automation_id
+    value: "btnLogin"
+  fallbacks:
+    - strategy: name
+      value: "Log In"
+    - strategy: control_type
+      value: button
+  metadata:
+    description: Primary login / submit button
+    screen: Login
+
+LOGIN_ERROR_MESSAGE:
+  primary:
+    strategy: automation_id
+    value: "lblErrorMessage"
+  fallbacks:
+    - strategy: name
+      value: "Invalid credentials"
+    - strategy: class_name
+      value: "TextBlock"
+  metadata:
+    description: Red error banner shown on failed login attempt
+    screen: Login
+
+# ─── Main Dashboard ───────────────────────────────────────────────────────────
+
+DASHBOARD_TITLE:
+  primary:
+    strategy: name
+    value: "Claims Dashboard"
+  fallbacks:
+    - strategy: automation_id
+      value: "lblDashboardTitle"
+  metadata:
+    description: Page heading that confirms a successful login
+    screen: Dashboard
+
+NEW_CLAIM_BUTTON:
+  primary:
+    strategy: automation_id
+    value: "btnNewClaim"
+  fallbacks:
+    - strategy: name
+      value: "New Claim"
+    - strategy: control_type
+      value: button
+  metadata:
+    description: Opens the New Claim form
+    screen: Dashboard
+
+SEARCH_CLAIMS_FIELD:
+  primary:
+    strategy: automation_id
+    value: "txtSearchClaims"
+  fallbacks:
+    - strategy: name
+      value: "Search claims..."
+    - strategy: class_name
+      value: "SearchTextBox"
+  metadata:
+    description: Search box for finding existing claims by ID or claimant name
+    screen: Dashboard
+
+CLAIMS_LIST:
+  primary:
+    strategy: automation_id
+    value: "dgClaimsList"
+  fallbacks:
+    - strategy: class_name
+      value: "DataGrid"
+    - strategy: control_type
+      value: datagrid
+  metadata:
+    description: The data grid listing all claims
+    screen: Dashboard
+
+LOGOUT_MENU_ITEM:
+  primary:
+    strategy: automation_id
+    value: "menuLogout"
+  fallbacks:
+    - strategy: name
+      value: "Log Out"
+    - strategy: name
+      value: "Sign Out"
+  metadata:
+    description: Logout menu item (usually under File or user avatar menu)
+    screen: Dashboard
+
+# ─── New Claim Form ───────────────────────────────────────────────────────────
+
+CLAIM_ID_FIELD:
+  primary:
+    strategy: automation_id
+    value: "txtClaimId"
+  fallbacks:
+    - strategy: name
+      value: "Claim ID"
+  metadata:
+    description: Auto-populated claim ID (read-only)
+    screen: NewClaim
+
+CLAIMANT_NAME_FIELD:
+  primary:
+    strategy: automation_id
+    value: "txtClaimantName"
+  fallbacks:
+    - strategy: name
+      value: "Claimant Name"
+    - strategy: class_name
+      value: "TextBox"
+  metadata:
+    description: Full name of the person filing the claim
+    screen: NewClaim
+
+CLAIM_TYPE_DROPDOWN:
+  primary:
+    strategy: automation_id
+    value: "cboClaimType"
+  fallbacks:
+    - strategy: name
+      value: "Claim Type"
+    - strategy: control_type
+      value: combobox
+  metadata:
+    description: Dropdown for selecting claim category (Medical, Property, Auto, etc.)
+    screen: NewClaim
+
+CLAIM_AMOUNT_FIELD:
+  primary:
+    strategy: automation_id
+    value: "txtClaimAmount"
+  fallbacks:
+    - strategy: name
+      value: "Amount ($)"
+    - strategy: name
+      value: "Claim Amount"
+  metadata:
+    description: Dollar amount field for the claim
+    screen: NewClaim
+
+CLAIM_DESCRIPTION_FIELD:
+  primary:
+    strategy: automation_id
+    value: "txtDescription"
+  fallbacks:
+    - strategy: name
+      value: "Description"
+    - strategy: class_name
+      value: "RichTextBox"
+  metadata:
+    description: Free-text field for describing the claim
+    screen: NewClaim
+
+SUBMIT_CLAIM_BUTTON:
+  primary:
+    strategy: automation_id
+    value: "btnSubmitClaim"
+  fallbacks:
+    - strategy: name
+      value: "Submit Claim"
+    - strategy: name
+      value: "Submit"
+  metadata:
+    description: Submits the new claim
+    screen: NewClaim
+
+CLAIM_SAVED_CONFIRMATION:
+  primary:
+    strategy: automation_id
+    value: "lblConfirmation"
+  fallbacks:
+    - strategy: name
+      value: "Claim submitted successfully"
+    - strategy: name
+      value: "Claim Saved"
+  metadata:
+    description: Success banner shown after a claim is submitted
+    screen: NewClaim
+
+CANCEL_BUTTON:
+  primary:
+    strategy: automation_id
+    value: "btnCancel"
+  fallbacks:
+    - strategy: name
+      value: "Cancel"
+  metadata:
+    description: Cancels the new claim form and returns to dashboard
+    screen: NewClaim
+
+# ─── Claim Detail View ────────────────────────────────────────────────────────
+
+CLAIM_STATUS_LABEL:
+  primary:
+    strategy: automation_id
+    value: "lblClaimStatus"
+  fallbacks:
+    - strategy: name
+      value: "Status:"
+    - strategy: class_name
+      value: "StatusLabel"
+  metadata:
+    description: Shows the current status of a claim (Open, In Review, Approved, Denied)
+    screen: ClaimDetail
+
+APPROVE_CLAIM_BUTTON:
+  primary:
+    strategy: automation_id
+    value: "btnApprove"
+  fallbacks:
+    - strategy: name
+      value: "Approve"
+  metadata:
+    description: Approves the claim (available to supervisors only)
+    screen: ClaimDetail
+
+DENY_CLAIM_BUTTON:
+  primary:
+    strategy: automation_id
+    value: "btnDeny"
+  fallbacks:
+    - strategy: name
+      value: "Deny"
+  metadata:
+    description: Denies the claim (available to supervisors only)
+    screen: ClaimDetail
