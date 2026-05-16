@@ -499,16 +499,22 @@ class DesktopAutomationLibrary:
     def scan_application_screen(
         self,
         output_path: str = "scanned_locators.yaml",
-        max_depth: int = 8,
+        max_depth: int = 12,
         overwrite: bool = True,
         include_containers: bool = False,
+        wait_seconds: float = 0,
+        all_windows: bool = False,
+        min_score: int = 40,
     ) -> str:
         """Scan the running application's UI tree and generate a locators.yaml file.
 
         Walks the live Windows UIA accessibility tree, scores every element for
         locator quality, and writes a ready-to-use ``locators.yaml`` to ``output_path``.
-        Drop the output file into ``screens/<screen>/locators.yaml``, review the
-        generated keys, and it is ready to use.
+
+        For slow-loading applications (Office, OneNote, etc.) use ``wait_seconds``
+        to let the application fully render before scanning.
+        For complex applications use ``all_windows=True`` to scan every top-level
+        window, not just the main window.
 
         Score key:
         | ★★★ | automation_id — developer-set, most stable        |
@@ -518,9 +524,11 @@ class DesktopAutomationLibrary:
         Examples:
         | Scan Application Screen |
         | Scan Application Screen | output_path=screens/login/locators.yaml |
-        | Scan Application Screen | output_path=screens/dashboard/locators.yaml | max_depth=5 |
+        | Scan Application Screen | wait_seconds=5 | all_windows=True |
+        | Scan Application Screen | max_depth=15 | min_score=20 |
         """
-        from desktop_automation_platform.adapters.flaui.automation_factory import create_automation
+        import time
+
         from desktop_automation_platform.adapters.flaui.element_resolver import FlaUIElementResolver
         from desktop_automation_platform.adapters.flaui.scanner import FlaUILocatorScanner
         from desktop_automation_platform.scanner.locator_generator import LocatorGenerator
@@ -528,20 +536,97 @@ class DesktopAutomationLibrary:
 
         session = self._require_session()
 
-        automation = create_automation("UIA3")
+        # Optional delay — let slow apps (Office, OneNote) finish rendering
+        if float(wait_seconds) > 0:
+            robot_logger.info(f"Waiting {wait_seconds}s for application to fully load...")
+            time.sleep(float(wait_seconds))
+
+        # Reuse the session's own automation instance so element tree-walking
+        # works correctly — creating a new instance causes FindAll to return
+        # no children for elements that belong to a different automation context.
+        native = session.native_session if isinstance(session.native_session, dict) else {}
+        automation = native.get("automation")
+        flaui_app = native.get("application")
+
+        if automation is None:
+            from desktop_automation_platform.adapters.flaui.automation_factory import create_automation
+            automation = create_automation("UIA3")
+            robot_logger.warn(
+                "Session has no stored automation instance — created a new one. "
+                "Results may be incomplete for some applications."
+            )
+
+        # Re-find the current main window at scan time.
+        # This handles apps that transition from a splash/loading window to the
+        # real application window (e.g. Microsoft Word, Excel).
+        current_window = native.get("main_window")
+        if flaui_app is not None:
+            try:
+                fresh = flaui_app.GetMainWindow(automation)
+                if fresh is not None:
+                    current_window = fresh
+                    native["main_window"] = current_window
+                    robot_logger.info("Main window refreshed — using current application window.")
+            except Exception as exc:
+                robot_logger.warn(f"Could not refresh main window: {exc}. Using stored reference.")
+
         resolver = FlaUIElementResolver(automation)
         flaui_scanner = FlaUILocatorScanner(automation, resolver)
 
-        robot_logger.info(f"Scanning UI tree (max_depth={max_depth})...")
-        elements = flaui_scanner.scan_application(session, max_depth=int(max_depth))
-        robot_logger.info(f"Tree walk complete — {len(elements)} raw elements found.")
+        all_elements: list = []
+
+        if bool(all_windows) and flaui_app is not None:
+            # Scan all top-level windows (better for Office, OneNote, multi-window apps)
+            robot_logger.info("Scanning ALL top-level application windows...")
+            try:
+                windows = flaui_app.GetAllTopLevelWindows(automation)
+                for win in windows:
+                    try:
+                        win_elements = flaui_scanner._walk_tree(
+                            win, depth=0, max_depth=int(max_depth), parent_id=None
+                        )
+                        all_elements.extend(win_elements)
+                        robot_logger.info(
+                            f"  Window '{getattr(win, 'Name', '?')}': {len(win_elements)} elements"
+                        )
+                    except Exception as exc:
+                        robot_logger.warn(f"  Could not scan window: {exc}")
+            except Exception as exc:
+                robot_logger.warn(f"GetAllTopLevelWindows failed: {exc}. Falling back to main window.")
+
+        if not all_elements:
+            # Standard single-window scan
+            robot_logger.info(f"Scanning main window (max_depth={max_depth})...")
+            all_elements = flaui_scanner.scan_application(session, max_depth=int(max_depth))
+
+        robot_logger.info(
+            f"Tree walk complete — {len(all_elements)} raw elements found. "
+            f"Applying filters (min_score={min_score}, include_containers={include_containers})..."
+        )
+
+        if len(all_elements) == 0:
+            robot_logger.warn(
+                "No elements found in the UI tree. Possible causes:\n"
+                "  1. The application is still loading — add wait_seconds=5 (or more)\n"
+                "  2. The app uses a non-UIA technology — try adapter_mode: pywinauto in config.yaml\n"
+                "  3. The application window is minimised or off-screen"
+            )
 
         generator = LocatorGenerator(
             include_containers=bool(include_containers),
             include_invisible=False,
-            min_score=40,
+            min_score=int(min_score),
         )
-        scored = generator.generate(elements)
+        scored = generator.generate(all_elements)
+
+        if len(scored) == 0 and len(all_elements) > 0:
+            robot_logger.warn(
+                f"All {len(all_elements)} elements were filtered out. Possible causes:\n"
+                f"  1. Elements have no AutomationId, Name, or ClassName — try min_score=20\n"
+                f"  2. All elements are off-screen — try include_containers=True\n"
+                f"  3. App uses virtual/composed UI (modern Office, OneNote) — "
+                f"try all_windows=True and wait_seconds=5"
+            )
 
         exporter = YamlExporter()
         written_path = exporter.export(
