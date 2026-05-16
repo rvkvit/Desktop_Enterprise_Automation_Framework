@@ -16,6 +16,8 @@ dependency-injector>=4.41.0
 psutil>=5.9.7
 
 # --- Windows desktop automation ---
+# pythonnet: .NET CLR bridge — REQUIRED for the FlaUI adapter (WPF/WinForms/WinUI3)
+pythonnet>=3.0.3; sys_platform == "win32"
 # pywinauto: Win32 / WinForms / WPF interaction via accessibility APIs
 pywinauto>=0.6.8; sys_platform == "win32"
 # comtypes: COM automation and UI Automation bindings

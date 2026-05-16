@@ -114,13 +114,7 @@ pip install -r requirements.txt
 
 This installs Robot Framework, Pydantic, structlog, and all other libraries. It may take 2–5 minutes.
 
-**Step 4 — Install pythonnet (needed for FlaUI)**
-
-```powershell
-pip install pythonnet
-```
-
-**Step 5 — Download FlaUI assemblies**
+**Step 4 — Download FlaUI assemblies**
 
 ```powershell
 .\scripts\setup_flaui.ps1
@@ -128,7 +122,7 @@ pip install pythonnet
 
 This downloads the FlaUI .NET automation library into `lib\flaui\`.
 
-**Step 6 — Verify the installation**
+**Step 5 — Verify the installation**
 
 ```powershell
 python -c "import robot; print('Robot Framework OK')"
@@ -136,102 +130,85 @@ python -c "import pydantic; print('Pydantic OK')"
 python -c "import clr; print('pythonnet OK')"
 ```
 
-All three lines should print `OK`. If any fail, see [Troubleshooting](#12-troubleshooting).
+All three lines should print `OK`. If `pythonnet` fails, run:
+```powershell
+pip install pythonnet
+```
+Then retry. If any other check fails, see [Troubleshooting](#12-troubleshooting).
 
 ---
 
 ## 4. Your first test in 10 minutes
 
-This example automates **Notepad** — it's built into every Windows machine, so no special app is needed.
+The repository already contains a complete, ready-to-run example project at `my_first_test\`. You do not need to create any files — just activate the virtual environment and run.
 
-### Step 1 — Create your project folder
-
-```powershell
-mkdir C:\MyTests
-cd C:\MyTests
-```
-
-### Step 2 — Create the config file
-
-Create a file called `config.yaml` and paste this into it:
-
-```yaml
-framework:
-  adapter_mode: auto          # Let the platform detect the app automatically
-  retry_count: 3              # Retry failed steps 3 times before giving up
-  screenshot_on_failure: true # Take a screenshot when something goes wrong
-
-application:
-  name: Notepad
-  executable: C:\Windows\System32\notepad.exe
-  type: auto
-
-execution:
-  timeout: 30
-
-reporting:
-  output_directory: reports
-  screenshots_directory: reports\screenshots
-```
-
-### Step 3 — Create the locators file
-
-Create a file called `locators.yaml` — this tells the framework where the buttons and fields are:
-
-```yaml
-NOTEPAD_TEXT_AREA:
-  primary:
-    strategy: class_name
-    value: Edit
-  fallbacks:
-    - strategy: automation_id
-      value: 15
-
-FILE_MENU:
-  primary:
-    strategy: name
-    value: File
-  fallbacks:
-    - strategy: automation_id
-      value: Item 1
-```
-
-### Step 4 — Write the test
-
-Create a file called `test_notepad.robot`:
-
-```robotframework
-*** Settings ***
-Library    desktop_automation_platform.robot_keywords.DesktopKeywords
-
-*** Test Cases ***
-Type Text In Notepad
-    [Documentation]    Opens Notepad, types some text, and verifies it appears
-    Launch Application    config.yaml    locators.yaml
-    Wait For Element      NOTEPAD_TEXT_AREA
-    Click Element         NOTEPAD_TEXT_AREA
-    Input Text            NOTEPAD_TEXT_AREA    Hello from the automation platform!
-    ${text}=    Get Text  NOTEPAD_TEXT_AREA
-    Should Contain        ${text}    Hello from the automation platform!
-    [Teardown]    Close Application
-```
-
-### Step 5 — Run the test
+### Step 1 — Activate the virtual environment
 
 ```powershell
-# Make sure your virtual environment is active
+cd "C:\Path\To\Desktop-Claude-Enterprise-Autoamtion-Framework"
 .venv\Scripts\Activate.ps1
+```
 
-# Run the test
+You will see `(.venv)` at the start of your prompt. Every time you open a new terminal you must do this before running tests.
+
+### Step 2 — Run the example test
+
+```powershell
+cd my_first_test
 robot test_notepad.robot
 ```
 
-### Step 6 — See the results
+Notepad will open, the framework will type text into it, verify the text appeared, and close Notepad. The terminal will show:
 
-After the test completes, open `reports\report.html` in your browser. You will see:
-- A green tick if the test passed
-- A red X with a screenshot if it failed
-- Exactly which step failed and why
+```
+Test Notepad
+Type Text Into Notepad And Verify                                     | PASS |
+Test Notepad                                                  1 passed, 0 failed
+```
+
+### Step 3 — See the results
+
+Open `my_first_test\reports\report.html` in any browser.
+
+> **If you see `AdapterInitializationException: clr is not installed`** — pythonnet is missing.
+> Run this once and retry:
+> ```powershell
+> pip install pythonnet
+> ```
+
+> **If you see `Resource file '...' does not exist`** — you are running the test from the wrong
+> folder. Always `cd my_first_test` first, then run `robot test_notepad.robot`.
+
+### What the example project looks like
+
+```
+my_first_test\
+├── config.yaml                        ← tells the framework about Notepad
+├── screens\
+│   └── notepad\
+│       ├── locators.yaml              ← where the text area and title bar are
+│       └── keywords.resource          ← screen-level actions (Enter Text In Editor, etc.)
+├── resources\
+│   ├── platform_settings.resource     ← imports DesktopAutomationLibrary (one place only)
+│   └── business_keywords.resource     ← business-level keywords (Open Notepad And Type, etc.)
+└── test_notepad.robot                 ← the test — only calls business keywords
+```
+
+This three-tier structure is what every project built on this framework follows. The [Style Guide](docs/STYLE_GUIDE.md) explains each tier in detail.
+
+### Ready to automate your own application?
+
+Use the scaffolding tool — it creates the correct folder structure in seconds:
+
+```powershell
+python scripts\new_project.py `
+    --name "My Application" `
+    --executable "C:\Apps\MyApp.exe" `
+    --screens login main_screen `
+    --output C:\Projects\my-app-tests
+```
+
+Then see [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md) for the full step-by-step guide.
 
 ---
 
@@ -747,16 +724,31 @@ When a step fails, the framework automatically saves a screenshot to `reports\sc
 
 ## 12. Troubleshooting
 
-### "pythonnet not found" or "CLR error"
+### "AdapterInitializationException: clr is not installed" or "pythonnet not found"
+
+This is the most common issue on a fresh machine. `pythonnet` is the Python–.NET bridge that FlaUI requires. Install it inside the virtual environment:
 
 ```powershell
+# Make sure the venv is active first (you should see (.venv) in your prompt)
 pip install pythonnet
 ```
 
-If that fails on Windows:
+Then retry `robot test_notepad.robot`. If pip fails to build it:
 ```powershell
-pip install --find-links https://github.com/pythonnet/pythonnet/releases pythonnet
+pip install --upgrade pip wheel
+pip install pythonnet
 ```
+
+### "Resource file '...' does not exist" or "No keyword with name '...' found"
+
+You are running the test from the wrong directory. Robot Framework resolves resource file paths relative to where you run the `robot` command. Always `cd` into the project folder first:
+
+```powershell
+cd my_first_test          # or your project folder
+robot test_notepad.robot  # now the paths resolve correctly
+```
+
+Never run `robot` from the framework root when your test is inside `my_first_test\`.
 
 ### "FlaUI assemblies not found"
 

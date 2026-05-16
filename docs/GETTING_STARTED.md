@@ -182,10 +182,14 @@ After activation, your terminal prompt will show `(.venv)` at the start. This me
 ### Step 3 — Install Python packages
 
 ```powershell
+pip install -r requirements.txt
 pip install -e .
 ```
 
-This installs the framework and all its dependencies. Takes about 2–3 minutes the first time.
+This installs the framework and all its dependencies — including `pythonnet`, the .NET bridge required by the FlaUI adapter. Takes about 2–5 minutes the first time.
+
+> **If you see `clr is not installed` errors later**, run `pip install pythonnet` inside the
+> activated virtual environment. This is the most common issue on fresh Windows machines.
 
 ### Step 4 — Install FlaUI (the Windows automation engine)
 
@@ -193,13 +197,13 @@ This installs the framework and all its dependencies. Takes about 2–3 minutes 
 .\scripts\setup_flaui.ps1
 ```
 
-This downloads the components that allow the framework to "see" and "click" inside Windows applications. Takes about 1 minute.
+This downloads the FlaUI .NET DLL files into `lib\flaui\`. Takes about 1 minute.
 
 ### Step 5 — Verify everything works
 
 ```powershell
-cd examples\notepad_reference
-robot tests\test_notepad.robot
+cd my_first_test
+robot test_notepad.robot
 ```
 
 You should see Notepad open, some text get typed into it, and then Notepad close. The terminal should end with:
@@ -207,7 +211,15 @@ You should see Notepad open, some text get typed into it, and then Notepad close
 1 test, 1 passed, 0 failed
 ```
 
-If you see this, the platform is working correctly. 
+If you see this, the platform is working correctly.
+
+**Common errors at this step:**
+
+| Error message | Fix |
+|---|---|
+| `AdapterInitializationException: clr is not installed` | Run `pip install pythonnet` then retry |
+| `Resource file '...' does not exist` | Make sure you `cd my_first_test` before running `robot` |
+| `1 test, 0 passed, 1 failed` with `ApplicationLaunchException` | Check that `C:\Windows\System32\notepad.exe` exists on this machine |
 
 ---
 
