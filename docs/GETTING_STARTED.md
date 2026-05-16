@@ -303,22 +303,29 @@ A **locator** is the framework's way of finding a specific button, text field, o
 
 The easiest way to build your locator list is to let the framework scan your application automatically.
 
-**Write a temporary test** in any `.robot` file:
+**Write a temporary test** in `tests\scan_screens.robot`:
 
 ```robotframework
 *** Settings ***
-Resource    resources/business_keywords.resource
-Suite Teardown    Close Application
+Library    DesktopAutomationLibrary
+...        config_path=${CURDIR}/../config.yaml
+...        locator_path=${CURDIR}/../screens
 
 *** Test Cases ***
 Scan The Login Screen
     Launch Application
-    Scan Application Screen    output_path=screens/login/locators.yaml
+    Scan Application Screen    output_path=${CURDIR}/../screens/login/locators.yaml
+    Close Application
 ```
+
+> **Why `${CURDIR}`?** Robot Framework resolves `${CURDIR}` to the folder containing the current
+> `.robot` file. This means the paths always work correctly no matter where you run `robot` from.
+> Do not use bare relative paths like `screens/login/locators.yaml` — they are relative to the
+> terminal's working directory, not the file, and will break when run from a different folder.
 
 Run it:
 ```powershell
-robot tests\test_login.robot
+robot tests\scan_screens.robot
 ```
 
 The framework will:

@@ -410,14 +410,22 @@ The `locators.yaml` file is a dictionary of every button, field, and menu in you
 
 **Method 1 — Use the built-in scanner** (recommended):
 
-Add a temporary test to any `.robot` file and run it once:
+Add a temporary test (e.g. `tests\scan_screens.robot`) and run it once:
 
 ```robotframework
+*** Settings ***
+Library    DesktopAutomationLibrary
+...        config_path=${CURDIR}/../config.yaml
+...        locator_path=${CURDIR}/../screens
+
 *** Test Cases ***
 Scan My Screen
-    Launch Application    config.yaml    screens/
-    Scan Application Screen    output_path=screens/my_screen/locators.yaml
+    Launch Application
+    Scan Application Screen    output_path=${CURDIR}/../screens/my_screen/locators.yaml
+    Close Application
 ```
+
+Use `${CURDIR}` for all paths — it resolves to the folder containing the `.robot` file, so the paths work regardless of where `robot` is run from.
 
 The platform will walk every element visible on screen and write a ready-to-use `locators.yaml` with suggested names, strategies, and scores. Review the generated file, rename keys to match your naming convention, delete anything you will not use, and delete the temporary test.
 
